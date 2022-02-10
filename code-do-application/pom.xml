@@ -6,12 +6,12 @@
         <groupId>com.godric</groupId>
         <artifactId>code-do</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <artifactId>code-do-application</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>code-do-application</name>
     <description>code-do</description>
+    <packaging>jar</packaging>
     <properties>
         <java.version>1.8</java.version>
     </properties>
