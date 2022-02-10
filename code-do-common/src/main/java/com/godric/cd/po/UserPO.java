@@ -20,6 +20,8 @@ public class UserPO {
 
     private String avatar;
 
+    private String openId;
+
     private String ext;
 
     private LocalDateTime lastLoginTime;
