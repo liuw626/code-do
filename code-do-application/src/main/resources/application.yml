@@ -1,0 +1,20 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-bp15jkou3e157jte97o.mysql.rds.aliyuncs.com/code_do
+    username: godric
+    password: Liuj12921109147!
+
+logging:
+  level:
+    com.godric.cd.dao: trace
+
+mybatis-plus:
+  mapper-locations: classpath:/xml/*.xml
+  type-aliases-package: com.godric.cd.common.po.*
+  configuration:
+    map-underscore-to-camel-case: true
+
+
