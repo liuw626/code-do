@@ -1,7 +1,5 @@
 FROM java:8
 
-VOLUME /tmp
-
 ADD ./code-do-application/target/code-do-application-0.0.1-SNAPSHOT.jar code-do-application.jar
 
 EXPOSE 8080
