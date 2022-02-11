@@ -9,7 +9,7 @@ WORKDIR /app
 COPY code-do-application/src /app/code-do-application/src
 
 # 将pom.xml文件，拷贝到工作目录下
-COPY settings.xml pom.xml /app/
+COPY pom.xml /app/
 
 # 执行代码编译命令
 # 自定义settings.xml, 选用国内镜像源以提高下载速度
