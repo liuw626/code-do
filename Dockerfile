@@ -25,7 +25,7 @@ RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.tencent.com/g' /etc/apk/repositorie
 WORKDIR /app
 
 # 将构建产物jar包拷贝到运行时目录中
-COPY --from=build /app/code-do-application/target/code-do-application-0.0.1-SNAPSHOT.jar ./code-do.jar
+COPY --from=build /app/code-do-application/target/code-do-application-0.0.1-SNAPSHOT.jar ./
 
 CMD ls
 RUN ls
@@ -35,4 +35,4 @@ EXPOSE 80
 # ADD ./code-do-application/target/code-do-application-0.0.1-SNAPSHOT.jar code-do.jar
 # RUN bash -c 'touch /code-do.jar'
 # ENTRYPOINT ["java", "-jar", "/code-do.jar"]
-CMD ["java", "-jar", "/code-do.jar"]
+CMD ["java", "-jar", "/code-do-application-0.0.1-SNAPSHOT.jar"]
