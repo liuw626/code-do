@@ -11,8 +11,8 @@ public class UserService {
     @Autowired
     private UserRepository userRepository;
 
-    public int insert(String username, String avatar) {
-        UserPO user = UserPO.builder().username(username).avatar(avatar).build();
+    public int insert(String username, String avatar, String openId) {
+        UserPO user = UserPO.builder().username(username).avatar(avatar).openId(openId).build();
         return userRepository.insert(user);
     }
 

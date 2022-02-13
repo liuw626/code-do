@@ -16,8 +16,8 @@ public class UserController {
     private UserService userService;
 
     @GetMapping("insert")
-    public BaseResult insert(String username, String avatar) {
-        int res = userService.insert(username, avatar);
+    public BaseResult insert(String username, String avatar, String openId) {
+        int res = userService.insert(username, avatar, openId);
         if (res > 0) {
             return BaseResult.success();
         }
