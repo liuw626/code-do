@@ -27,6 +27,9 @@ WORKDIR /app
 # 将构建产物jar包拷贝到运行时目录中
 COPY --from=build /app/code-do-application/target/code-do-application-0.0.1-SNAPSHOT.jar ./code-do.jar
 
+CMD ls
+RUN ls
+
 EXPOSE 80
 # RUN mvn pom.xml clean package
 # ADD ./code-do-application/target/code-do-application-0.0.1-SNAPSHOT.jar code-do.jar
