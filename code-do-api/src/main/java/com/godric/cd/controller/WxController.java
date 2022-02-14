@@ -4,6 +4,7 @@ import com.godric.cd.constant.CodeDoConstant;
 import com.godric.cd.constant.WxUrlConstant;
 import com.godric.cd.result.DataResult;
 import com.godric.cd.utils.HttpUtil;
+import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
