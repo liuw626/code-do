@@ -19,4 +19,15 @@ mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
 
-
+wx:
+  mp:
+    appId: wxf6d85b99a6b0f5c9
+    secret: 0b52c6a32f0df3be65ad709dbcb2b209
+    #config-storage:
+    #  http-client-type: httpclient
+    #  type: redistemplate
+    #  key-prefix: wx
+    #  redis:
+    #    host: 127.0.0.1
+    #    password: 123456
+    #    port: 6379
