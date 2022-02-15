@@ -18,6 +18,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Objects;
 
 @Slf4j
 @RestController
@@ -73,8 +74,9 @@ public class WechatController {
         log.info("msgType:{}", msgType);
         // 路由消息并处理
         WxMpXmlOutMessage outMessage = router.route(inMessage);
-        String s = outMessage.toString();
-        log.info("outMessage:{}", s);
+        if (Objects.isNull(outMessage)) {
+            throw new BizException(BizErrorEnum.INVALID_ROUTER);
+        }
 
         return BaseResult.success();
     }
