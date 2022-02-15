@@ -1,5 +1,6 @@
 package com.godric.cd.application.aop;
 
+import com.alibaba.fastjson.JSON;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
 import com.godric.cd.result.BaseResult;
@@ -21,7 +22,7 @@ public class ApiAspect {
 
     @Around("execution(* com.godric.cd.controller..*.*(..))")
     public Object handleAnimalController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        log.info("method [{}] start process, args:{}", proceedingJoinPoint.getSignature(), proceedingJoinPoint.getArgs());
+        log.info("method [{}] start process, args:{}", proceedingJoinPoint.getSignature(), JSON.toJSONString(proceedingJoinPoint.getArgs()));
         try {
             return proceedingJoinPoint.proceed();
         } catch (MethodArgumentNotValidException e) {
