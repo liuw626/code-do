@@ -36,6 +36,7 @@ public class WechatController {
         String signature = request.getParameter("signature");
         String nonce = request.getParameter("nonce");
         String timestamp = request.getParameter("timestamp");
+        log.info("receiveMessage: signature:{}, nonce:{}, timestamp:{}", signature, nonce, timestamp);
         if (!mpService.checkSignature(timestamp, nonce, signature)) {
             response.getWriter().println("非法请求");
         }

@@ -15,6 +15,12 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
+
 @Slf4j
 @Aspect
 @Component
@@ -22,14 +28,19 @@ public class ApiAspect {
 
     @Around("execution(* com.godric.cd.controller..*.*(..))")
     public Object handleAnimalController(ProceedingJoinPoint proceedingJoinPoint) throws Throwable {
-        log.info("method [{}] start process, args:{}", proceedingJoinPoint.getSignature(), JSON.toJSONString(proceedingJoinPoint.getArgs()));
+        Object[] args = proceedingJoinPoint.getArgs();
+        List<Object> logArgs = Arrays.stream(args)
+                .filter(arg -> (!(arg instanceof HttpServletRequest) && !(arg instanceof HttpServletResponse)))
+                .collect(Collectors.toList());
+        //过滤后序列化无异常
+        log.info("method [{}] start process, args:{}", proceedingJoinPoint.getSignature(), JSON.toJSONString(logArgs));
         try {
             return proceedingJoinPoint.proceed();
         } catch (MethodArgumentNotValidException e) {
             log.error("methodArgumentNotValidException", e);
             throw new BizException(e.getMessage());
         } catch(BizException e) {
-            log.warn("method [{}] biz error, args:{}, e:{}", proceedingJoinPoint.getSignature(), proceedingJoinPoint.getArgs(), e.getMessage());
+            log.warn("method [{}] biz error, args:{}, e:{}", proceedingJoinPoint.getSignature(), logArgs, e.getMessage());
             Class<?> returnClass = ((MethodSignature)proceedingJoinPoint.getSignature()).getReturnType();
             if (returnClass == DataResult.class) {
                 return DataResult.error(e.getMessage());
@@ -42,7 +53,7 @@ public class ApiAspect {
             }
             return BaseResult.fail(e.getMessage());
         } catch (Exception e) {
-            log.error("error, args:{}",proceedingJoinPoint.getArgs(), e);
+            log.error("error, args:{}", logArgs, e);
             Class<?> returnClass = ((MethodSignature)proceedingJoinPoint.getSignature()).getReturnType();
             if (returnClass == DataResult.class) {
                 return DataResult.error(BizErrorEnum.SYSTEM_ERROR);
