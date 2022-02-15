@@ -10,6 +10,7 @@ import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
+import org.apache.http.client.HttpClient;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
