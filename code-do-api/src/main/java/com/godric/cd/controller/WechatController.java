@@ -7,7 +7,6 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,7 +25,7 @@ public class WechatController {
     private WxMpService mpService;
 
     @Resource
-    private WxMpMessageRouter router;
+    private WxMpMessageRouter wxMpMessageRouter;
 
     @PostMapping("/handler/message")
     public void receiveMessage(HttpServletRequest request, HttpServletResponse response)
@@ -57,7 +56,7 @@ public class WechatController {
                             msgSignature);
             log.info("message content = {}", inMessage.getContent());
             // 路由消息并处理
-            WxMpXmlOutMessage outMessage = router.route(inMessage);
+            WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
             if (outMessage == null) {
                 response.getWriter().write("");
             } else {
