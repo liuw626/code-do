@@ -107,6 +107,7 @@ public class HttpUtil {
 
                 in.close();
 
+                log.info("doPost sb:{}", sb);
                 return sb.toString();
             }
             else{	//
