@@ -34,6 +34,10 @@ public class WechatController {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
         // 校验消息签名，判断是否为公众平台发的消息
+        String source = request.getParameter("x-wx-source");
+
+        log.info("receiveMessage：source:{}", source);
+
         String signature = request.getParameter("signature");
         String nonce = request.getParameter("nonce");
         String timestamp = request.getParameter("timestamp");
