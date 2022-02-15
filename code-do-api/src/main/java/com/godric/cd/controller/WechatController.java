@@ -25,7 +25,7 @@ public class WechatController {
     private WxMpService mpService;
 
     @Resource
-    private WxMpMessageRouter wxMpMessageRouter;
+    private WxMpMessageRouter router;
 
     @PostMapping("/handler/message")
     public void receiveMessage(HttpServletRequest request, HttpServletResponse response)
@@ -56,7 +56,7 @@ public class WechatController {
                             msgSignature);
             log.info("message content = {}", inMessage.getContent());
             // 路由消息并处理
-            WxMpXmlOutMessage outMessage = wxMpMessageRouter.route(inMessage);
+            WxMpXmlOutMessage outMessage = router.route(inMessage);
             if (outMessage == null) {
                 response.getWriter().write("");
             } else {
