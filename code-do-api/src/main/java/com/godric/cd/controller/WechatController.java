@@ -1,5 +1,6 @@
 package com.godric.cd.controller;
 
+import com.godric.cd.result.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -28,7 +29,7 @@ public class WechatController {
     private WxMpMessageRouter router;
 
     @PostMapping("/handler/message")
-    public void receiveMessage(HttpServletRequest request, HttpServletResponse response)
+    public BaseResult receiveMessage(HttpServletRequest request, HttpServletResponse response)
             throws IOException, WxErrorException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -45,7 +46,7 @@ public class WechatController {
                 : request.getParameter("encrypt_type");
         // 明文消息
         if ("raw".equals(encryptType)) {
-            return;
+            return BaseResult.success();
         }
         // aes 加密消息
         if ("aes".equals(encryptType)) {
@@ -63,9 +64,10 @@ public class WechatController {
             } else {
                 response.getWriter().write(outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()));
             }
-            return;
+            return BaseResult.success();
         }
         response.getWriter().println("不可识别的加密类型");
+        return BaseResult.fail("不可识别的加密类型");
     }
 
 }
