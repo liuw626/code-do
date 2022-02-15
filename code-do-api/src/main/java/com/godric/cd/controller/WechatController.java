@@ -1,5 +1,7 @@
 package com.godric.cd.controller;
 
+import com.godric.cd.exception.BizErrorEnum;
+import com.godric.cd.exception.BizException;
 import com.godric.cd.result.BaseResult;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -33,45 +35,46 @@ public class WechatController {
             throws IOException, WxErrorException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
-        // 校验消息签名，判断是否为公众平台发的消息
+        // 判断是否为公众平台发的消息
         String source = request.getHeader("x-wx-source");
-
-        log.info("receiveMessage：source:{}", source);
-
-        String signature = request.getParameter("signature");
-        String nonce = request.getParameter("nonce");
-        String timestamp = request.getParameter("timestamp");
-        log.info("receiveMessage: signature:{}, nonce:{}, timestamp:{}", signature, nonce, timestamp);
-        if (!mpService.checkSignature(timestamp, nonce, signature)) {
-            response.getWriter().println("非法请求");
+        if (StringUtils.isBlank(source)) {
+            throw new BizException(BizErrorEnum.NOT_MP_MESSAGE);
         }
+
         // 加密类型
         String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw"
                 : request.getParameter("encrypt_type");
-        // 明文消息
-        if ("raw".equals(encryptType)) {
-            return BaseResult.success();
-        }
-        // aes 加密消息
+
+        WxMpXmlMessage inMessage = null;
         if ("aes".equals(encryptType)) {
-            // 解密消息
-            String msgSignature = request.getParameter("msg_signature");
-            WxMpXmlMessage inMessage = WxMpXmlMessage
-                    .fromEncryptedXml(request.getInputStream(), mpService.getWxMpConfigStorage(), timestamp,
-                            nonce,
-                            msgSignature);
-            log.info("message content = {}", inMessage.getContent());
-            // 路由消息并处理
-            WxMpXmlOutMessage outMessage = router.route(inMessage);
-            if (outMessage == null) {
-                response.getWriter().write("");
-            } else {
-                response.getWriter().write(outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()));
+            // aes加密消息
+            String signature = request.getParameter("signature");
+            String nonce = request.getParameter("nonce");
+            String timestamp = request.getParameter("timestamp");
+            log.info("receiveMessage: signature:{}, nonce:{}, timestamp:{}", signature, nonce, timestamp);
+            if (!mpService.checkSignature(timestamp, nonce, signature)) {
+                throw new BizException(BizErrorEnum.INVALID_MP_REQUEST);
             }
-            return BaseResult.success();
+            String msgSignature = request.getParameter("msg_signature");
+
+            // 解密消息
+            inMessage = WxMpXmlMessage
+                    .fromEncryptedXml(request.getInputStream(), mpService.getWxMpConfigStorage(), timestamp,
+                            nonce, msgSignature);
+
+            log.info("message content = {}", inMessage.getContent());
+        } else if ("raw".equals(encryptType)) {
+            inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
+        } else {
+            throw new BizException(BizErrorEnum.UNKNOWN_ENCRYPT_TYPE);
         }
-        response.getWriter().println("不可识别的加密类型");
-        return BaseResult.fail("不可识别的加密类型");
+
+        // 路由消息并处理
+        WxMpXmlOutMessage outMessage = router.route(inMessage);
+        String s = outMessage.toString();
+        log.info("outMessage:{}", s);
+
+        return BaseResult.success();
     }
 
 }

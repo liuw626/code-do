@@ -8,13 +8,11 @@ import lombok.Getter;
 public enum BizErrorEnum {
 
     NEED_LOGIN("NEED_LOGIN", "请先登录!"),
-    NEED_ADMIN_PERMISSION("NEED_ADMIN_PERMISSION", "用户没有管理员权限!"),
-    USER_NOT_EXIST("USER_NOT_EXIST", "用户不存在"),
-    USERNAME_PASSWORD_NOT_MATCH("USERNAME_PASSWORD_NOT_MATCH", "用户名和密码不匹配"),
-    SYSTEM_ERROR("SYSTEM_ERROR", "系统开小差了, 请稍后再试!"),
-    FIELD_CANNOT_NULL("FIELD_CANNOT_NULL", "字段 %s 不能为空"),
-    PARAM_CANNOT_NULL("PARAM_CANNOT_NULL", "参数 %s 不能为空"),
     OPERATION_FAILED("OPERATION_FAILED", "操作失败"),
+    NOT_MP_MESSAGE("NOT_MP_MESSAGE", "不是来自公众号的消息"),
+    INVALID_MP_REQUEST("INVALID_MP_REQUEST", "非法的公众号请求"),
+    UNKNOWN_ENCRYPT_TYPE("UNKNOWN_ENCRYPT_TYPE", "未知加密类型"),
+    INVALID_ROUTER("INVALID_ROUTER", "消息路由失败"),
     ;
 
     private final String code;
