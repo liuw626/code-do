@@ -69,6 +69,8 @@ public class WechatController {
             throw new BizException(BizErrorEnum.UNKNOWN_ENCRYPT_TYPE);
         }
 
+        String msgType = inMessage.getMsgType();
+        log.info("msgType:{}", msgType);
         // 路由消息并处理
         WxMpXmlOutMessage outMessage = router.route(inMessage);
         String s = outMessage.toString();
