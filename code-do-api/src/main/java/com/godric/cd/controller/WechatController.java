@@ -48,8 +48,7 @@ public class WechatController {
         String encryptType = StringUtils.isBlank(request.getParameter("encrypt_type")) ? "raw"
                 : request.getParameter("encrypt_type");
 
-        WxMpXmlMessage inMessage = null;
-        String outStr = null;
+        WxMpXmlMessage inMessage;
         if ("aes".equals(encryptType)) {
             // aes加密消息
             String signature = request.getParameter("signature");
@@ -66,12 +65,12 @@ public class WechatController {
                     .fromEncryptedXml(request.getInputStream(), mpService.getWxMpConfigStorage(), timestamp,
                             nonce, msgSignature);
 
-            log.info("message content = {}", inMessage.getContent());
         } else if ("raw".equals(encryptType)) {
             inMessage = WxMpXmlMessage.fromXml(request.getInputStream());
         } else {
             throw new BizException(BizErrorEnum.UNKNOWN_ENCRYPT_TYPE);
         }
+        log.info("message content = {}", inMessage.getContent());
 
         // 路由消息并处理
         WxMpXmlOutMessage outMessage = router.route(inMessage);
@@ -80,7 +79,7 @@ public class WechatController {
         }
 
         String res = "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
-        log.info("res:{}", JSON.toJSONString(res));
+        log.info("res:{}", res);
         response.getWriter().write(res);
         return BaseResult.success();
     }
