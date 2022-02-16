@@ -1,5 +1,6 @@
 package com.godric.cd.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
 import com.godric.cd.result.BaseResult;
@@ -18,6 +19,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
 @Slf4j
@@ -78,8 +80,8 @@ public class WechatController {
         }
 
         String res = "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
-        log.info("res:{}", res);
-        response.getWriter().write(res);
+        log.info("res:{}", JSON.toJSONString(res));
+        response.getOutputStream().write(res.getBytes(StandardCharsets.UTF_8));
         return res;
     }
 
