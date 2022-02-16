@@ -34,7 +34,7 @@ public class WechatController {
     private WxMpMessageRouter router;
 
     @PostMapping("/handler/message")
-    public String receiveMessage(HttpServletRequest request, HttpServletResponse response)
+    public BaseResult receiveMessage(HttpServletRequest request, HttpServletResponse response)
             throws IOException, WxErrorException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -81,8 +81,8 @@ public class WechatController {
 
         String res = "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
         log.info("res:{}", JSON.toJSONString(res));
-        response.getOutputStream().write(res.getBytes(StandardCharsets.UTF_8));
-        return res;
+        response.getWriter().write(res);
+        return BaseResult.success();
     }
 
 }
