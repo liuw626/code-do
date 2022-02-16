@@ -109,7 +109,7 @@ public class HttpUtil {
 
                 in.close();
 
-                log.info("doPost request:{}, sb:{}", JSON.toJSONString(request), sb);
+                log.info("doPost request:{}, response:{}", JSON.toJSONString(request), JSON.toJSONString(response));
                 return sb.toString();
             } else {    //
                 log.error("HttpUtil.doPost():状态码：" + code);
