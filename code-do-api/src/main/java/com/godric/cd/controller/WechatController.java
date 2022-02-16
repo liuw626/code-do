@@ -79,8 +79,9 @@ public class WechatController {
         }
 
         String res = "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
-        log.info("res:{}", res);
+        response.reset();
         response.getWriter().write(res);
+        log.info("res:{}, response:{}", res, JSON.toJSONString(response));
         return BaseResult.success();
     }
 
