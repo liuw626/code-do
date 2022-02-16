@@ -32,7 +32,7 @@ public class WechatController {
     private WxMpMessageRouter router;
 
     @PostMapping("/handler/message")
-    public BaseResult receiveMessage(HttpServletRequest request, HttpServletResponse response)
+    public String receiveMessage(HttpServletRequest request, HttpServletResponse response)
             throws IOException, WxErrorException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -47,6 +47,7 @@ public class WechatController {
                 : request.getParameter("encrypt_type");
 
         WxMpXmlMessage inMessage = null;
+        String outStr = null;
         if ("aes".equals(encryptType)) {
             // aes加密消息
             String signature = request.getParameter("signature");
@@ -78,7 +79,7 @@ public class WechatController {
             throw new BizException(BizErrorEnum.INVALID_ROUTER);
         }
 
-        return BaseResult.success();
+        return "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
     }
 
 }

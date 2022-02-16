@@ -51,6 +51,9 @@ public class ApiAspect {
             if (returnClass == PaginationResult.class) {
                 return PaginationResult.buildError(e.getMessage());
             }
+            if (returnClass == String.class) {
+                return e.getMessage();
+            }
             return BaseResult.fail(e.getMessage());
         } catch (Exception e) {
             log.error("error, args:{}", logArgs, e);
@@ -63,6 +66,9 @@ public class ApiAspect {
             }
             if (returnClass == PaginationResult.class) {
                 return PaginationResult.buildError(BizErrorEnum.SYSTEM_ERROR);
+            }
+            if (returnClass == String.class) {
+                return BizErrorEnum.SYSTEM_ERROR.getDesc();
             }
             return BaseResult.fail(BizErrorEnum.SYSTEM_ERROR);
         }
