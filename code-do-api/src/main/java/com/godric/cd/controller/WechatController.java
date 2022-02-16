@@ -74,11 +74,13 @@ public class WechatController {
 
         // 路由消息并处理
         WxMpXmlOutMessage outMessage = router.route(inMessage);
+        log.info("outMessage:{}", JSON.toJSONString(outMessage));
         if (Objects.isNull(outMessage)) {
             throw new BizException(BizErrorEnum.INVALID_ROUTER);
         }
 
         String res = "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
+        log.info("toXml, res:{}", res);
         response.reset();
         log.info("before write res:{}, response:{}", res, JSON.toJSONString(response));
         response.getWriter().write(res);
