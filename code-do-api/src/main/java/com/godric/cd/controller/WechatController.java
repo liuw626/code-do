@@ -71,15 +71,16 @@ public class WechatController {
             throw new BizException(BizErrorEnum.UNKNOWN_ENCRYPT_TYPE);
         }
 
-        String msgType = inMessage.getMsgType();
-        log.info("msgType:{}", msgType);
         // 路由消息并处理
         WxMpXmlOutMessage outMessage = router.route(inMessage);
         if (Objects.isNull(outMessage)) {
             throw new BizException(BizErrorEnum.INVALID_ROUTER);
         }
 
-        return "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
+        String res = "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
+        log.info("res:{}", res);
+        response.getWriter().write(res);
+        return res;
     }
 
 }
