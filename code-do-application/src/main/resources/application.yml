@@ -1,13 +1,16 @@
 server:
-  port: 80
+  port: 8080
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    #url: jdbc:mysql://rm-bp15jkou3e157jte97o.mysql.rds.aliyuncs.com/code_do
-    url: jdbc:mysql://sh-cynosdbmysql-grp-f5cq9mc8.sql.tencentcdb.com:29578/code_do
-    #username: godric
-    username: root
+    url: jdbc:mysql://rm-bp15jkou3e157jte97o.mysql.rds.aliyuncs.com/code_do
+    #url: jdbc:mysql://sh-cynosdbmysql-grp-f5cq9mc8.sql.tencentcdb.com:29578/code_do
+    username: godric
+    #username: root
     password: Liuj12921109147!
+  redis:
+    host: 47.102.127.243
+    port: 6379
 
 logging:
   level:
