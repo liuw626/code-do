@@ -14,4 +14,14 @@ public class WechatConstant {
     @Value("${wx.mp.secret}")
     private String appSecret;
 
+    public static class Url {
+        /**
+         * 获取token接口
+         */
+        public static final String GET_ACCESS_TOKEN = "https://api.weixin.qq.com/cgi-bin/token";
+
+
+
+    }
+
 }
