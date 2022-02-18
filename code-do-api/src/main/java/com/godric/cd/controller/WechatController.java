@@ -4,6 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
 import com.godric.cd.result.BaseResult;
+import com.godric.cd.result.DataResult;
+import com.godric.cd.service.WechatService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
@@ -11,6 +13,9 @@ import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.StringRedisTemplate;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,11 +31,24 @@ import java.util.Objects;
 @RequestMapping("wechat")
 public class WechatController {
 
-    @Resource
+    @Autowired
     private WxMpService mpService;
 
-    @Resource
+    @Autowired
     private WxMpMessageRouter router;
+
+    @Autowired
+    private WechatService wechatService;
+
+    @Autowired
+    private StringRedisTemplate redisTemplate;
+
+    @GetMapping("token/get")
+    public DataResult<String> getToken() {
+        String token = wechatService.getToken();
+        redisTemplate.opsForValue().set("wechat-token", token);
+        return DataResult.success(token);
+    }
 
     @PostMapping("/handler/message")
     public BaseResult receiveMessage(HttpServletRequest request, HttpServletResponse response)

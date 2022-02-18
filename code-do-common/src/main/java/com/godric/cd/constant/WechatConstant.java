@@ -1,14 +1,17 @@
 package com.godric.cd.constant;
 
+import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
+@Data
 @Component
-public class CodeDoConstant {
+public class WechatConstant {
 
     @Value("${wx.mp.appId}")
-    public static final String WX_APP_ID = "wxf6d85b99a6b0f5c9";
+    private String appId;
 
-    public static final String WX_APP_SECRET = "0b52c6a32f0df3be65ad709dbcb2b209";
+    @Value("${wx.mp.secret}")
+    private String appSecret;
 
 }
