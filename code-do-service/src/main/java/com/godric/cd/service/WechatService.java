@@ -4,7 +4,6 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.godric.cd.constant.RedisConstant;
 import com.godric.cd.constant.WechatConstant;
-import com.godric.cd.constant.WxUrlConstant;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
 import com.godric.cd.repository.CacheRepository;

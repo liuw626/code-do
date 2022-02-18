@@ -1,8 +1,6 @@
 package com.godric.cd.handler;
 
 import com.alibaba.fastjson.JSON;
-import com.godric.cd.constant.WxUrlConstant;
-import com.godric.cd.utils.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
 import me.chanjar.weixin.common.session.WxSessionManager;
@@ -10,11 +8,8 @@ import me.chanjar.weixin.mp.api.WxMpMessageHandler;
 import me.chanjar.weixin.mp.api.WxMpService;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlMessage;
 import me.chanjar.weixin.mp.bean.message.WxMpXmlOutMessage;
-import org.apache.http.client.HttpClient;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
