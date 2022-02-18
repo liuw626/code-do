@@ -15,6 +15,7 @@ public enum BizErrorEnum {
     INVALID_MP_REQUEST("INVALID_MP_REQUEST", "非法的公众号请求"),
     UNKNOWN_ENCRYPT_TYPE("UNKNOWN_ENCRYPT_TYPE", "未知加密类型"),
     INVALID_ROUTER("INVALID_ROUTER", "消息路由失败"),
+    WECHAT_SERVICE_ERROR("WECHAT_SERVICE_ERROR", "调用微信接口失败"),
     ;
 
     private final String code;

@@ -40,14 +40,9 @@ public class WechatController {
     @Autowired
     private WechatService wechatService;
 
-    @Autowired
-    private StringRedisTemplate redisTemplate;
-
     @GetMapping("token/get")
     public DataResult<String> getToken() {
-        String token = wechatService.getToken();
-        redisTemplate.opsForValue().set("wechat-token", token);
-        return DataResult.success(token);
+        return DataResult.success(wechatService.getToken());
     }
 
     @PostMapping("/handler/message")
