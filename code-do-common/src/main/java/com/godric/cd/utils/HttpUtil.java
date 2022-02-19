@@ -41,9 +41,9 @@ public class HttpUtil {
             CloseableHttpResponse response = null;
             try {
                 response = httpClient.execute(request);
-                log.info("HttpUtil.doGet request:{}, response:{}", JSON.toJSONString(request), JSON.toJSONString(response));
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-                    return EntityUtils.toString(response.getEntity(), "UTF-8");
+                    String res = EntityUtils.toString(response.getEntity(), "UTF-8");
+                    log.info("HttpUtil.doGet request:{}, res:{}", JSON.toJSONString(request), res);
                 }
             } catch (Exception e) {
                 log.error("HttpUtil.doGet error, url: " + url, e);

@@ -45,8 +45,16 @@ public class WechatController {
         return DataResult.success(wechatService.getToken());
     }
 
+    @GetMapping("handler/message")
+    public String checkMesage(String signature, String timestamp, String nonce, String echostr) {
+        if (mpService.checkSignature(timestamp, nonce, signature)) {
+            return echostr;
+        }
+        throw new BizException(BizErrorEnum.NOT_MP_MESSAGE);
+    }
+
     @PostMapping("/handler/message")
-    public BaseResult receiveMessage(HttpServletRequest request, HttpServletResponse response)
+    public String receiveMessage(HttpServletRequest request, HttpServletResponse response)
             throws IOException, WxErrorException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
@@ -97,7 +105,7 @@ public class WechatController {
         log.info("before write res:{}, response:{}", res, JSON.toJSONString(response));
         response.getWriter().write(res);
         log.info("after write res:{}, response:{}", res, JSON.toJSONString(response));
-        return BaseResult.success();
+        return "success";
     }
 
 }

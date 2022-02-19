@@ -34,3 +34,4 @@ wx:
       redis:
         host: 47.102.127.243
         port: 6379
+    token: codedo
