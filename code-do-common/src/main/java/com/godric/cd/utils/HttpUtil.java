@@ -44,6 +44,7 @@ public class HttpUtil {
                 if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
                     String res = EntityUtils.toString(response.getEntity(), "UTF-8");
                     log.info("HttpUtil.doGet request:{}, res:{}", JSON.toJSONString(request), res);
+                    return res;
                 }
             } catch (Exception e) {
                 log.error("HttpUtil.doGet error, url: " + url, e);

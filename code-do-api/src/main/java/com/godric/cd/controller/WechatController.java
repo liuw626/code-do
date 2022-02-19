@@ -46,7 +46,7 @@ public class WechatController {
     }
 
     @GetMapping("handler/message")
-    public String checkMesage(String signature, String timestamp, String nonce, String echostr) {
+    public String checkMessage(String signature, String timestamp, String nonce, String echostr) {
         if (mpService.checkSignature(timestamp, nonce, signature)) {
             return echostr;
         }
@@ -58,10 +58,13 @@ public class WechatController {
             throws IOException, WxErrorException {
         response.setContentType("text/html;charset=utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
-        // 判断是否为公众平台发的消息
-        String source = request.getHeader("x-wx-source");
-        if (StringUtils.isBlank(source)) {
-            throw new BizException(BizErrorEnum.NOT_MP_MESSAGE);
+
+        String signature = request.getParameter("signature");
+        String nonce = request.getParameter("nonce");
+        String timestamp = request.getParameter("timestamp");
+        log.info("receiveMessage: signature:{}, nonce:{}, timestamp:{}", signature, nonce, timestamp);
+        if (!mpService.checkSignature(timestamp, nonce, signature)) {
+            throw new BizException(BizErrorEnum.INVALID_MP_REQUEST);
         }
 
         // 加密类型
@@ -71,13 +74,6 @@ public class WechatController {
         WxMpXmlMessage inMessage;
         if ("aes".equals(encryptType)) {
             // aes加密消息
-            String signature = request.getParameter("signature");
-            String nonce = request.getParameter("nonce");
-            String timestamp = request.getParameter("timestamp");
-            log.info("receiveMessage: signature:{}, nonce:{}, timestamp:{}", signature, nonce, timestamp);
-            if (!mpService.checkSignature(timestamp, nonce, signature)) {
-                throw new BizException(BizErrorEnum.INVALID_MP_REQUEST);
-            }
             String msgSignature = request.getParameter("msg_signature");
 
             // 解密消息
@@ -100,12 +96,14 @@ public class WechatController {
         }
 
         String res = "aes".equals(encryptType) ? outMessage.toEncryptedXml(mpService.getWxMpConfigStorage()) : outMessage.toXml();
-        log.info("toXml, res:{}", res);
-        response.reset();
-        log.info("before write res:{}, response:{}", res, JSON.toJSONString(response));
-        response.getWriter().write(res);
-        log.info("after write res:{}, response:{}", res, JSON.toJSONString(response));
-        return "success";
+//        log.info("toXml, res:{}", res);
+//        response.reset();
+//        log.info("before write res:{}, response:{}", res, JSON.toJSONString(response));
+//        response.getWriter().write(res);
+//        log.info("after write res:{}, response:{}", res, JSON.toJSONString(response));
+//        return "success";
+        log.info("res:{}", res);
+        return res;
     }
 
 }
