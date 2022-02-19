@@ -1,7 +1,6 @@
 package com.godric.cd.controller;
 
 import com.godric.cd.po.UserPO;
-import com.godric.cd.repository.UserRepository;
 import com.godric.cd.result.BaseResult;
 import com.godric.cd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
