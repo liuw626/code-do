@@ -35,6 +35,10 @@ public class WechatMessageHandler implements WxMpMessageHandler {
 
     private static final String DEFAULT_REPLY = "对不起, 还不明白您的问题哦~";
 
+    private static final Integer COUNT_LIMIT = 3;
+
+    private static final Integer TIME_LIMIT = TimeConstant.MINUTE * 5;
+
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map, WxMpService wxMpService, WxSessionManager wxSessionManager) throws WxErrorException {
 
@@ -47,18 +51,21 @@ public class WechatMessageHandler implements WxMpMessageHandler {
 
         if (VERIFY_CODE_CONTENT.equals(content)) {
             // todo 判断用户是否关注, 未关注让他先关注(暂时做不了, 后续看是否有需要)
-            checkFrequency(openId);
-            String verifyCode = userService.generateVerifyCode();
-            res = String.format("验证码: %s, 10分钟内有效", verifyCode);
-            String key = String.format(RedisConstant.VERIFY_CODE, verifyCode);
-            cacheRepository.set(key, openId, TimeConstant.TEN_MINUTE);
+            if (!checkFrequency(openId)) {
+                res = "你太快了, 歇会再试试吧";
+            } else {
+                String verifyCode = userService.generateVerifyCode();
+                res = String.format("验证码: %s, 10分钟内有效", verifyCode);
+                String key = String.format(RedisConstant.VERIFY_CODE, verifyCode);
+                cacheRepository.set(key, openId, TimeConstant.TEN_MINUTE);
+            }
         }
 
         return WxMpXmlOutMessage.TEXT().content(res).fromUser(wxMpXmlMessage.getToUser()).toUser(wxMpXmlMessage.getFromUser()).build();
     }
 
-    private void checkFrequency(String openId) {
-        // todo 频次限制
+    private boolean checkFrequency(String openId) {
+        return cacheRepository.increment(String.format(RedisConstant.CODE_FREQUENCY, openId), TIME_LIMIT) <= COUNT_LIMIT;
     }
 
 }

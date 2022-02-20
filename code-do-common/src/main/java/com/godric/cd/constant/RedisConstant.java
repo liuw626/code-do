@@ -8,4 +8,5 @@ public class RedisConstant {
 
     public static final String VERIFY_CODE = "verify_code_%s";
 
+    public static final String CODE_FREQUENCY = "code_frequency_%s";
 }
