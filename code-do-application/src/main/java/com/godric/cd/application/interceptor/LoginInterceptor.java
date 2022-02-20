@@ -1,8 +1,6 @@
 package com.godric.cd.application.interceptor;
 
 import com.godric.cd.constant.CodeDoConstant;
-import com.godric.cd.exception.BizErrorEnum;
-import com.godric.cd.exception.BizException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 

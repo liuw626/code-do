@@ -15,9 +15,9 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
     protected void addInterceptors(InterceptorRegistry registry) {
         List<String> userExcludePaths = new ArrayList<>();
         userExcludePaths.add("/login/**");
-        userExcludePaths.add("/handler/message");
+        userExcludePaths.add("/wechat/handler/message");
 
-        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns(userExcludePaths);
+        registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**").excludePathPatterns(userExcludePaths)    ;
         super.addInterceptors(registry);
     }
 }

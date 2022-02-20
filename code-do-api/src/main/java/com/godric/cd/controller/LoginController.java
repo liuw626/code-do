@@ -1,5 +1,6 @@
 package com.godric.cd.controller;
 
+import com.godric.cd.constant.CodeDoConstant;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
 import com.godric.cd.po.UserPO;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
+
 @RestController
 @RequestMapping("login")
 public class LoginController {
@@ -19,9 +23,11 @@ public class LoginController {
     private UserService userService;
 
     @GetMapping("fillCode")
-    public BaseResult fillCode(String verifyCode) {
+    public BaseResult fillCode(String verifyCode, HttpServletRequest request) {
         UserPO user = userService.fillCode(verifyCode);
-        // todo login interceptor
+        if (Objects.nonNull(user)) {
+            request.getSession().setAttribute(CodeDoConstant.SESSION_KEY_USER_OPEN_ID, user.getOpenId());
+        }
 
         return BaseResult.success();
     }
@@ -30,6 +36,7 @@ public class LoginController {
     public BaseResult userErrorGet() {
         throw new BizException(BizErrorEnum.NEED_LOGIN);
     }
+
     @PostMapping(value = "error/user")
     public BaseResult userErrorPost() {
         throw new BizException(BizErrorEnum.NEED_LOGIN);

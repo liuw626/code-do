@@ -46,7 +46,8 @@ public class WechatMessageHandler implements WxMpMessageHandler {
         String res = DEFAULT_REPLY;
 
         if (VERIFY_CODE_CONTENT.equals(content)) {
-            // todo 判断用户是否关注, 未关注让他先关注
+            // todo 判断用户是否关注, 未关注让他先关注(暂时做不了, 后续看是否有需要)
+            checkFrequency(openId);
             String verifyCode = userService.generateVerifyCode();
             res = String.format("验证码: %s, 10分钟内有效", verifyCode);
             String key = String.format(RedisConstant.VERIFY_CODE, verifyCode);
@@ -54,6 +55,10 @@ public class WechatMessageHandler implements WxMpMessageHandler {
         }
 
         return WxMpXmlOutMessage.TEXT().content(res).fromUser(wxMpXmlMessage.getToUser()).toUser(wxMpXmlMessage.getFromUser()).build();
+    }
+
+    private void checkFrequency(String openId) {
+        // todo 频次限制
     }
 
 }

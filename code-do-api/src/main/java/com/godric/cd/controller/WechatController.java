@@ -53,10 +53,11 @@ public class WechatController {
         throw new BizException(BizErrorEnum.NOT_MP_MESSAGE);
     }
 
-    @PostMapping("/handler/message")
+    @PostMapping(value = "/handler/message", produces = "application/text;charset=utf-8")
     public String receiveMessage(HttpServletRequest request, HttpServletResponse response)
             throws IOException, WxErrorException {
         response.setContentType("text/html;charset=utf-8");
+        response.setCharacterEncoding("utf-8");
         response.setStatus(HttpServletResponse.SC_OK);
 
         String signature = request.getParameter("signature");
