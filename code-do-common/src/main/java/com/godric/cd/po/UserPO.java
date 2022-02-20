@@ -22,8 +22,6 @@ public class UserPO {
 
     private String openId;
 
-    private String unionId;
-
     private String ext;
 
     private LocalDateTime lastLoginTime;

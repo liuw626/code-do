@@ -19,10 +19,9 @@ public class UserRepository {
         return userDao.insert(user);
     }
 
-    public UserPO queryByOpenIdAndUnionId(String openId, String unionId) {
+    public UserPO queryByOpenId(String openId) {
         QueryWrapper<UserPO> wrapper = new QueryWrapper<>();
-        wrapper.eq("open_id", openId)
-               .eq("union_id", unionId);
+        wrapper.eq("open_id", openId);
 
         List<UserPO> users = userDao.selectList(wrapper);
         return CollectionUtils.firstElement(users);

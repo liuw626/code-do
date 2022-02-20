@@ -3,8 +3,8 @@ package com.godric.cd.handler;
 import com.alibaba.fastjson.JSON;
 import com.godric.cd.constant.RedisConstant;
 import com.godric.cd.constant.TimeConstant;
-import com.godric.cd.dto.WechatIdDTO;
 import com.godric.cd.repository.CacheRepository;
+import com.godric.cd.repository.UserRepository;
 import com.godric.cd.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import me.chanjar.weixin.common.error.WxErrorException;
@@ -26,6 +26,9 @@ public class WechatMessageHandler implements WxMpMessageHandler {
     private UserService userService;
 
     @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
     private CacheRepository cacheRepository;
 
     private static final String VERIFY_CODE_CONTENT = "验证码";
@@ -34,20 +37,20 @@ public class WechatMessageHandler implements WxMpMessageHandler {
 
     @Override
     public WxMpXmlOutMessage handle(WxMpXmlMessage wxMpXmlMessage, Map<String, Object> map, WxMpService wxMpService, WxSessionManager wxSessionManager) throws WxErrorException {
-        String openId = wxMpXmlMessage.getOpenId();
-        String unionId = wxMpXmlMessage.getUnionId();
+
+        String openId = wxMpXmlMessage.getFromUser();
         String content = wxMpXmlMessage.getContent();
 
-        log.info("handler openId:{}, unionId:{}, content:{}", openId, unionId, content);
+        log.info("handler openId:{}, content:{}", openId, content);
 
         String res = DEFAULT_REPLY;
 
         if (VERIFY_CODE_CONTENT.equals(content)) {
+            // todo 判断用户是否关注, 未关注让他先关注
             String verifyCode = userService.generateVerifyCode();
             res = String.format("验证码: %s, 10分钟内有效", verifyCode);
             String key = String.format(RedisConstant.VERIFY_CODE, verifyCode);
-            WechatIdDTO dto = new WechatIdDTO(openId, unionId);
-            cacheRepository.set(key, JSON.toJSONString(dto), TimeConstant.TEN_MINUTE);
+            cacheRepository.set(key, openId, TimeConstant.TEN_MINUTE);
         }
 
         return WxMpXmlOutMessage.TEXT().content(res).fromUser(wxMpXmlMessage.getToUser()).toUser(wxMpXmlMessage.getFromUser()).build();
