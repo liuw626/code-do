@@ -20,7 +20,7 @@ import java.util.Map;
 
 @Slf4j
 @Component
-public class CodeDoWechatHandler implements WxMpMessageHandler {
+public class WechatMessageHandler implements WxMpMessageHandler {
 
     @Autowired
     private UserService userService;
@@ -37,6 +37,8 @@ public class CodeDoWechatHandler implements WxMpMessageHandler {
         String openId = wxMpXmlMessage.getOpenId();
         String unionId = wxMpXmlMessage.getUnionId();
         String content = wxMpXmlMessage.getContent();
+
+        log.info("handler openId:{}, unionId:{}, content:{}", openId, unionId, content);
 
         String res = DEFAULT_REPLY;
 

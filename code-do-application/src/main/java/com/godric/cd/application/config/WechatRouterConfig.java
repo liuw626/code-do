@@ -1,6 +1,6 @@
 package com.godric.cd.application.config;
 
-import com.godric.cd.handler.CodeDoWechatHandler;
+import com.godric.cd.handler.WechatMessageHandler;
 import me.chanjar.weixin.common.api.WxConsts;
 import me.chanjar.weixin.mp.api.WxMpMessageRouter;
 import me.chanjar.weixin.mp.api.WxMpService;
@@ -18,7 +18,7 @@ public class WechatRouterConfig {
 //    private LoginHandler loginHandler;
 
     @Autowired
-    private CodeDoWechatHandler messageHandler;
+    private WechatMessageHandler messageHandler;
 
 //    @Autowired
 //    private SubscribeHandler subscribeHandler;
