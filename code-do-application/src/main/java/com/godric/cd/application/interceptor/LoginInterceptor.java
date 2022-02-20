@@ -20,10 +20,9 @@ public class LoginInterceptor implements HandlerInterceptor {
         boolean passed = session.getAttribute(CodeDoConstant.SESSION_KEY_USER_OPEN_ID) != null;
 
         if (!passed) {
-            log.info("log interceptor not passed, user need login, url:{}", request.getRequestURI());
-//            request.getRequestDispatcher("/login/error/salesman").forward(request, response);
-//            return false;
-            throw new BizException(BizErrorEnum.NEED_LOGIN);
+            log.info("login interceptor not passed, user need login, url:{}", request.getRequestURI());
+            request.getRequestDispatcher("/login/error/user").forward(request, response);
+            return false;
         }
 
         return true;
