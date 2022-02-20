@@ -1,6 +1,7 @@
 package com.godric.cd.service;
 
 import com.alibaba.fastjson.JSON;
+import com.godric.cd.constant.CodeDoConstant;
 import com.godric.cd.constant.RedisConstant;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
@@ -13,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
+import java.util.UUID;
 
 @Service
 public class UserService {
@@ -23,10 +25,7 @@ public class UserService {
     @Autowired
     private CacheRepository cacheRepository;
 
-    public int insert(String username, String avatar, String openId) {
-        UserPO user = UserPO.builder().username(username).avatar(avatar).openId(openId).build();
-        return userRepository.insert(user);
-    }
+    private static final String DEFAULT_USERNAME_PREFIX = "微信用户";
 
     public UserPO fillCode(String code) {
         String key = String.format(RedisConstant.VERIFY_CODE, code);
@@ -36,7 +35,7 @@ public class UserService {
         }
         UserPO userPO = userRepository.queryByOpenId(openId);
         if (Objects.isNull(userPO)) {
-            // todo query from wechat and insert
+            return userRepository.insert(generateName(), CodeDoConstant.DEFAULT_AVATAR, openId);
         }
 
         return userPO;
@@ -50,6 +49,11 @@ public class UserService {
             key = String.format(RedisConstant.VERIFY_CODE, verifyCode);
         } while (StringUtils.isNotBlank(cacheRepository.get(key)));
         return verifyCode;
+    }
+
+    public String generateName() {
+        String suffix = UUID.randomUUID().toString().substring(0, 8);
+        return DEFAULT_USERNAME_PREFIX + suffix;
     }
 
 }

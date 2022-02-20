@@ -15,8 +15,10 @@ public class UserRepository {
     @Autowired
     private UserDao userDao;
 
-    public int insert(UserPO user) {
-        return userDao.insert(user);
+    public UserPO insert(String username, String avatar, String openId) {
+        UserPO user = UserPO.builder().username(username).avatar(avatar).openId(openId).build();
+        userDao.insert(user);
+        return user;
     }
 
     public UserPO queryByOpenId(String openId) {
