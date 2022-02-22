@@ -1,11 +1,10 @@
 package com.godric.cd.service;
 
-import com.alibaba.fastjson.JSON;
 import com.godric.cd.constant.CodeDoConstant;
 import com.godric.cd.constant.RedisConstant;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
-import com.godric.cd.po.UserPO;
+import com.godric.cd.po.User;
 import com.godric.cd.repository.CacheRepository;
 import com.godric.cd.repository.UserRepository;
 import com.godric.cd.utils.CodeUtil;
@@ -27,18 +26,18 @@ public class UserService {
 
     private static final String DEFAULT_USERNAME_PREFIX = "微信用户";
 
-    public UserPO fillCode(String code) {
+    public User fillCode(String code) {
         String key = String.format(RedisConstant.VERIFY_CODE, code);
         String openId = cacheRepository.get(key);
         if (StringUtils.isBlank(openId)) {
             throw new BizException(BizErrorEnum.INVALID_VERIFY_CODE);
         }
-        UserPO userPO = userRepository.queryByOpenId(openId);
-        if (Objects.isNull(userPO)) {
+        User user = userRepository.queryByOpenId(openId);
+        if (Objects.isNull(user)) {
             return userRepository.insert(generateName(), CodeDoConstant.DEFAULT_AVATAR, openId);
         }
 
-        return userPO;
+        return user;
     }
 
     public String generateVerifyCode() {

@@ -1,10 +1,9 @@
 package com.godric.cd.controller;
 
 import com.godric.cd.exception.BizErrorEnum;
-import com.godric.cd.po.UserPO;
+import com.godric.cd.po.User;
 import com.godric.cd.repository.UserRepository;
 import com.godric.cd.result.BaseResult;
-import com.godric.cd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +20,7 @@ public class UserController {
 
     @GetMapping("insert")
     public BaseResult insert(String username, String avatar, String openId) {
-        UserPO user = userRepository.insert(username, avatar, openId);
+        User user = userRepository.insert(username, avatar, openId);
         if (Objects.nonNull(user)) {
             return BaseResult.success();
         }

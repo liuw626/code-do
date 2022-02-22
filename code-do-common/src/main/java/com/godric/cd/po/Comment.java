@@ -3,28 +3,24 @@ package com.godric.cd.po;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
-@Builder
-@TableName("user")
-public class UserPO {
+@TableName("comment")
+public class Comment {
 
     @TableId(type = IdType.AUTO)
     private Long id;
 
-    private String username;
+    private Long uid;
 
-    private String avatar;
+    private String content;
 
-    private String openId;
+    private Long articleId;
 
-    private String ext;
-
-    private LocalDateTime lastLoginTime;
+    private Long pid;
 
     private LocalDateTime createTime;
 

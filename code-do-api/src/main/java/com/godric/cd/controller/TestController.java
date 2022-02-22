@@ -3,7 +3,7 @@ package com.godric.cd.controller;
 import com.alibaba.fastjson.JSON;
 import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
-import com.godric.cd.po.UserPO;
+import com.godric.cd.po.User;
 import com.godric.cd.result.BaseResult;
 import com.godric.cd.result.DataResult;
 import com.godric.cd.utils.HttpUtil;
@@ -31,7 +31,7 @@ public class TestController {
     }
 
     @PostMapping("post")
-    public BaseResult post(UserPO user) {
+    public BaseResult post(User user) {
         log.info("TestController.post user:{}", JSON.toJSONString(user));
         return BaseResult.success();
     }
