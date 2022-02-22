@@ -6,4 +6,6 @@ public class CodeDoConstant {
 
     public static final String SESSION_KEY_USER_OPEN_ID = "session_open_id";
 
+    public static final String SESSION_KEY_UID = "session_uid";
+
 }

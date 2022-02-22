@@ -7,6 +7,7 @@ import com.godric.cd.po.User;
 import com.godric.cd.repository.UserRepository;
 import com.godric.cd.result.BaseResult;
 import com.godric.cd.service.UserService;
+import com.godric.cd.utils.SessionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,7 +32,8 @@ public class LoginController {
     public BaseResult fillCode(String verifyCode, HttpServletRequest request) {
         User user = userService.fillCode(verifyCode);
         if (Objects.nonNull(user)) {
-            request.getSession().setAttribute(CodeDoConstant.SESSION_KEY_USER_OPEN_ID, user.getOpenId());
+            SessionUtil.setSessionAttribute(CodeDoConstant.SESSION_KEY_USER_OPEN_ID, user.getOpenId());
+            SessionUtil.setSessionAttribute(CodeDoConstant.SESSION_KEY_UID, user.getId());
         }
 
         user.setLastLoginTime(LocalDateTime.now());
