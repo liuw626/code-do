@@ -22,6 +22,8 @@ public class Comment {
 
     private Long pid;
 
+    private Long thumbNum;
+
     private LocalDateTime createTime;
 
     private LocalDateTime updateTime;

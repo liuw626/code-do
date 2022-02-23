@@ -15,4 +15,27 @@ public class ArticleRepository {
         return articleDao.insert(article);
     }
 
+    public Article queryById(Long id) {
+        return articleDao.selectById(id);
+    }
+
+    public void addThumbNum(Article article) {
+        article.setThumbNum(article.getThumbNum() + 1);
+        this.update(article);
+    }
+
+    public void addCollectNum(Article article) {
+        article.setCollectNum(article.getCollectNum() + 1);
+        this.update(article);
+    }
+
+    public void addViewNum(Article article) {
+        article.setViewNum(article.getViewNum() + 1);
+        this.update(article);
+    }
+
+    public int update(Article article) {
+        return articleDao.updateById(article);
+    }
+
 }

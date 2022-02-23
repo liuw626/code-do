@@ -24,6 +24,8 @@ public class Article {
 
     private Long categoryId;
 
+    private Long collectNum;
+
     private Long viewNum;
 
     private Long thumbNum;

@@ -3,11 +3,13 @@ package com.godric.cd.po;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
 
 @Data
+@Builder
 @TableName("action_record")
 public class ActionRecord {
 
@@ -16,9 +18,9 @@ public class ActionRecord {
 
     private Long uid;
 
-    private Integer targetType;
+    private String targetType;
 
-    private Integer actionType;
+    private String actionType;
 
     private Long targetId;
 
