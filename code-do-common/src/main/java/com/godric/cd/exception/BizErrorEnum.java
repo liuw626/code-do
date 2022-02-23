@@ -17,6 +17,8 @@ public enum BizErrorEnum {
     INVALID_ROUTER("INVALID_ROUTER", "消息路由失败"),
     WECHAT_SERVICE_ERROR("WECHAT_SERVICE_ERROR", "调用微信接口失败"),
     INVALID_VERIFY_CODE("INVALID_VERIFY_CODE", "验证码错误, 请重新请求"),
+    INVALID_CATEGORY("INVALID_CATEGORY", "分类不可用"),
+    INVALID_LABEL("INVALID_LABEL", "标签不可用"),
     ;
 
     private final String code;
