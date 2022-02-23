@@ -1,9 +1,14 @@
 package com.godric.cd.repository;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.godric.cd.dao.ArticleDao;
 import com.godric.cd.po.Article;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class ArticleRepository {
@@ -32,6 +37,13 @@ public class ArticleRepository {
     public void addViewNum(Article article) {
         article.setViewNum(article.getViewNum() + 1);
         this.update(article);
+    }
+
+    public IPage<Article> queryPage(String keyword, Integer curPage, Integer pageSize) {
+        IPage<Article> page = new Page<>(curPage, pageSize);
+        QueryWrapper<Article> wrapper = new QueryWrapper<>();
+        wrapper.like("title", keyword);
+        return articleDao.selectPage(page, wrapper);
     }
 
     public int update(Article article) {
