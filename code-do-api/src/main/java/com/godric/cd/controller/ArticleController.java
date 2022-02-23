@@ -37,7 +37,8 @@ public class ArticleController {
 
     @GetMapping("queryById")
     public DataResult<ArticleDetailVO> queryById(Long id) {
-        return DataResult.success(null);
+        ArticleDetailVO vo = articleService.queryById(id);
+        return DataResult.success(vo);
     }
 
 }

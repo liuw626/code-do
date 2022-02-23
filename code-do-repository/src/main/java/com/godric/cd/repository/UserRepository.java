@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.CollectionUtils;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class UserRepository {
@@ -33,4 +34,11 @@ public class UserRepository {
         return CollectionUtils.firstElement(users);
     }
 
+    public User queryById(Long id) {
+        return userDao.selectById(id);
+    }
+
+    public List<User> queryList(Set<Long> uids) {
+        return userDao.selectBatchIds(uids);
+    }
 }

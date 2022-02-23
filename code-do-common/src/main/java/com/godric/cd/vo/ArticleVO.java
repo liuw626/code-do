@@ -9,6 +9,10 @@ public class ArticleVO {
 
     private String title;
 
+    private String authorName;
+
+    private String authorAvatar;
+
     private Long thumbNum;
 
     private Long viewNum;
