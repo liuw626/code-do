@@ -7,10 +7,12 @@ import com.godric.cd.exception.BizErrorEnum;
 import com.godric.cd.exception.BizException;
 import com.godric.cd.po.Article;
 import com.godric.cd.po.Category;
+import com.godric.cd.po.Comment;
 import com.godric.cd.po.Label;
 import com.godric.cd.po.User;
 import com.godric.cd.repository.ArticleRepository;
 import com.godric.cd.repository.CategoryRepository;
+import com.godric.cd.repository.CommentRepository;
 import com.godric.cd.repository.LabelRepository;
 import com.godric.cd.repository.UserRepository;
 import com.godric.cd.request.ArticleCreateRequest;
@@ -47,6 +49,9 @@ public class ArticleService {
 
     @Autowired
     private UserRepository userRepository;
+
+    @Autowired
+    private CommentRepository commentRepository;
 
     public void create(ArticleCreateRequest request) {
         Long uid = SessionUtil.getUid();
@@ -104,6 +109,10 @@ public class ArticleService {
         User user = userRepository.queryById(id);
         vo.setAuthorName(user.getUsername());
         vo.setAuthorAvatar(user.getAvatar());
+        List<Comment> comments = commentRepository.queryByArticleId(article.getId());
+        vo.setComments(comments);
+
+        articleRepository.addViewNum(article);
 
         return vo;
     }

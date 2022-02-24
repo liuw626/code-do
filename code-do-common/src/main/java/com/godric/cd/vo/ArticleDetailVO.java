@@ -1,5 +1,6 @@
 package com.godric.cd.vo;
 
+import com.godric.cd.po.Comment;
 import lombok.Data;
 
 import java.util.List;
@@ -17,6 +18,6 @@ public class ArticleDetailVO {
 
     private String authorAvatar;
 
-    private List<String> comments;
+    private List<Comment> comments;
 
 }

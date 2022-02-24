@@ -1,9 +1,12 @@
 package com.godric.cd.repository;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.godric.cd.dao.CommentDao;
 import com.godric.cd.po.Comment;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class CommentRepository {
@@ -26,6 +29,14 @@ public class CommentRepository {
 
     public int update(Comment comment) {
         return commentDao.updateById(comment);
+    }
+
+    public List<Comment> queryByArticleId(Long articleId) {
+        QueryWrapper<Comment> wrapper = new QueryWrapper<>();
+        wrapper.eq("article_id", articleId);
+        wrapper.orderByDesc("id");
+
+        return commentDao.selectList(wrapper);
     }
 
 }

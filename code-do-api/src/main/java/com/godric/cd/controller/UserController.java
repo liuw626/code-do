@@ -2,6 +2,7 @@ package com.godric.cd.controller;
 
 import com.godric.cd.request.CollectRequest;
 import com.godric.cd.request.ThumbRequest;
+import com.godric.cd.request.UserUpdateRequest;
 import com.godric.cd.result.BaseResult;
 import com.godric.cd.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,12 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+
+    @PostMapping("update")
+    public BaseResult update(UserUpdateRequest request) {
+        userService.update(request);
+        return BaseResult.success();
+    }
 
     @PostMapping("thumb")
     public BaseResult thumb(ThumbRequest request) {

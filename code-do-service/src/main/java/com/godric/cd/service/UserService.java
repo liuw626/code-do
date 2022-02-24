@@ -15,6 +15,7 @@ import com.godric.cd.repository.ArticleRepository;
 import com.godric.cd.repository.CacheRepository;
 import com.godric.cd.repository.CommentRepository;
 import com.godric.cd.repository.UserRepository;
+import com.godric.cd.request.UserUpdateRequest;
 import com.godric.cd.utils.CodeUtil;
 import com.godric.cd.utils.SessionUtil;
 import org.apache.commons.lang3.StringUtils;
@@ -132,4 +133,11 @@ public class UserService {
         actionRecordRepository.create(actionRecord);
     }
 
+    public void update(UserUpdateRequest request) {
+        Long uid = SessionUtil.getUid();
+        User user = userRepository.queryById(uid);
+        user.setAvatar(request.getAvatar());
+        user.setUsername(request.getUsername());
+        userRepository.update(user);
+    }
 }
