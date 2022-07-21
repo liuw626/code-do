@@ -24,7 +24,7 @@ public class TestController {
     @GetMapping("do")
     public DataResult<String> doTest(int k) {
         if (k == 1) {
-            throw new BizException(BizErrorEnum.PARAM_CANNOT_NULL);
+            throw new BizException(BizErrorEnum.PARAM_CANNOT_NULL, "k");
         }
 
         return DataResult.success("success");
